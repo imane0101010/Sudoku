@@ -6,13 +6,13 @@ For this final project, I will be gathering almost everything we studied this se
 
 ## Use Cases:
 
-**A user should be able to close the application.**
-**A user should be able to reset the sudoku table.**
-**A user should be able to get solution of the sudoku game.**
-**A user should be warned in case he violate the rules of the game**
-**Finally, the numbers entered to the sudoku game must remains in the app in future use in case the user wanted to resume the game**
+**A user should be able to close the application.**  
+**A user should be able to reset the sudoku table.**  
+**A user should be able to get solution of the sudoku game.**  
+**A user should be warned in case he violate the rules of the game.**  
+**Finally, the numbers entered to the sudoku game must remains in the app in future use in case the user wanted to resume the game.** 
 
-Normally, my app should provide a partially completed grid,which for a well-posed puzzle has a single solution.In this project,I won´t write any program that will generate sudoku numbers due to the lack of time.So I will use only a valid grid that will be stored in a QList that will contain QList of type int.It will contain numbers from 1 to 9 and also the number 0 that will refer to the empty cells.
+Normally, my app should provide a partially completed grid,which for a well-posed puzzle has a single solution.In this project,I won´t write any program that will generate sudoku numbers due to the lack of time.So I will use only a valid grid that will be stored in a QList that will contain QList of type int.It will contain numbers from 1 to 9 and also the number 0 that will refer to the empty cells.We can change the numbers in the qlist the 
 
 ## Graphical Interface
 
@@ -276,15 +276,124 @@ for(int i=0;i<line.size();i++){
 ```
 **Check slot**
 ```cpp
+int a=0;
+int c=0;
+//Getting the identity of the lineEdit using dynamic_cast
+auto line1  = dynamic_cast<QLineEdit*>(sender());
+for(int  w=0;w<line.size();w++){
+a=0;
+   if(line1 == line[w]){
+    k=w;
+                               }
+}
+QString s = elements.at(k)[0];
+QString s1 = elements.at(k)[1];
+QList<int> liste;
+QList<int> liste_;
+int i= s.toInt();
+int j = s1.toInt();
+for(int b =0;b<9;b++){
+  if(line1->text()!=""){
+    if(list1.at(i).at(b)==line1->text().toInt()){
+       for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
+           if(v<elements_lab.size()){
+             QString s2 = elements_lab.at(v)[0];
+                if(s2.toInt()==i){
+                   liste.append(v);
+                      }
+                  }if(v<elements.size()){
+                   QString s2 = elements.at(v)[0];
+                                        if(s2.toInt()==i){
+                                            liste_.append(v);
+                                      }
 
 
+                              }
+                  }
+
+         }
+            if(list1.at(b).at(j)==line1->text().toInt()){
+
+                  for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
+                         if(v<elements_lab.size()){
+                      QString s2 = elements_lab.at(v)[1];
+
+                            if(s2.toInt()== j ){
+                                liste.append(v);
+
+                            }
+                         }
+                         if(v<elements.size()){
+
+                         QString s2 = elements.at(v)[1];
+                      if(s2.toInt()==j){
+                        liste_.append(v);
+                          }
 
 
+                       }
+         }
+
+     }
+
+          for(int z=0;z<qMax(liste.size(),liste_.size());z++){
+              if(z<liste.size() &&labels[liste[z]]->text() == line1->text()){
+                            a =1;
+
+                       labels[liste[z]]->setStyleSheet("color: red");
+                        //QThread::msleep(1000);
+                    // labels[liste[z]]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
+                }
+              if(z<liste_.size() &&line[liste_[z]]->text() == line1->text()){
+                  a =1;
+
+                  line[liste_[z]]->setStyleSheet("color: red");
+                          c=liste_[z];
+
+                  for(int i=0;i<line.size();i++){
+                      if(i!=liste_[z]){
+                          QRegExp re("[]");
+                          QRegExpValidator *validator = new QRegExpValidator(re, this);
+                          line[i]->setValidator(validator);
+                      }
+
+
+                  }
+                 // QThread::msleep(1000);
+                 // line[liste_[z]]->setStyleSheet("color : gray");
+
+              }
+            }
+}
+         }
+          if(a==0){
+              list1[i][j]=line1->text().toInt();
+          }
+           if(line[c]->text()== ""){
+
+               for(int i=0;i<qMax(line.size(),labels.size());i++){
+                   if(i<line.size()){
+                       QRegExp re("[1-9]");
+                       QRegExpValidator *validator = new QRegExpValidator(re, this);
+                       line[i]->setValidator(validator);
+                       line[i]->setStyleSheet("color : gray");
+                   }
+                   if(i<labels.size()){
+               labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
+               }
+
+}
+            }
+```
 
 
 
 ```
 ## Backtracking
+
+Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, that incrementally builds candidates to the solutions. As soon as it determines that a candidate cannot possibly lead to a valid complete solution, it abandons this partial candidate and “backtracks’’ (return to the upper level) and reset to the upper level’s state so that the search process can continue to explore the next branch.
+To solve the sudoku,We will be using the backtracking algorithm:
+
 Implementation of the method is_Safe:
 
 ```cpp
@@ -382,6 +491,7 @@ Implementation of the solveSudoku mathod:
  for (int i = 0; i < 9; i++)
   {
    for (int j = 0; j < 9; j++){
+   
      if(list3[i][j]==0){
         if(k<line.size()){
           line[k]->setText(QString::number(l1[i][j]));
