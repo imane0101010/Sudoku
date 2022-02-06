@@ -245,7 +245,7 @@ p->drawLine(627,50,627,972);
 
 delete p;
 ```
-
+![](https://github.com/imane0101010/Sudoku/blob/cb670b4f3fd818f4600897c57fa8d832d5369a94/sudoku.png)
 **Connections** 
 
 For the connection part,I proceeded as follows:
@@ -363,6 +363,7 @@ labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black;
 }
 }
 ```
+![](https://github.com/imane0101010/Sudoku/blob/cb670b4f3fd818f4600897c57fa8d832d5369a94/sudoku_red.png)
 ## Backtracking
 
 Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, that incrementally builds candidates to the solutions. As soon as it determines that a candidate cannot possibly lead to a valid complete solution, it abandons this partial candidate and “backtracks’’ (return to the upper level) and reset to the upper level’s state so that the search process can continue to explore the next branch.
@@ -477,4 +478,4 @@ Implementation of the solveSudoku mathod:
     }
   }
   ```
-  
+ ![](https://github.com/imane0101010/Sudoku/blob/cb670b4f3fd818f4600897c57fa8d832d5369a94/solved_sudoku.png) 
