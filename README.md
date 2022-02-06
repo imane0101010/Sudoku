@@ -363,16 +363,12 @@ labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black;
 }
 }
 ```
-
-
-
-```
 ## Backtracking
 
 Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, that incrementally builds candidates to the solutions. As soon as it determines that a candidate cannot possibly lead to a valid complete solution, it abandons this partial candidate and “backtracks’’ (return to the upper level) and reset to the upper level’s state so that the search process can continue to explore the next branch.
 To solve the sudoku,We will be using the backtracking algorithm:
 
-Implementation of the method is_Safe:
+* **Implementation of the method is_Safe:**
 
 ```cpp
 // Check if we find the same num
