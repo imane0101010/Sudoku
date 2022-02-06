@@ -6,11 +6,11 @@ For this final project, I will be gathering almost everything we studied this se
 
 ## Use Cases:
 
-**A user should be able to close the application.**  
-**A user should be able to reset the sudoku table.**  
-**A user should be able to get solution of the sudoku game.**  
-**A user should be warned in case he violate the rules of the game.**  
-**Finally, the numbers entered to the sudoku game must remains in the app in future use in case the user wanted to resume the game.** 
+* **A user should be able to close the application.**  
+* **A user should be able to reset the sudoku table.**  
+* **A user should be able to get solution of the sudoku game.**  
+* **A user should be warned in case he violate the rules of the game.**  
+* **Finally, the numbers entered to the sudoku game must remains in the app in future use in case the user wanted to resume the game.** 
 
 Normally, my app should provide a partially completed grid,which for a well-posed puzzle has a single solution.In this project,I won´t write any program that will generate sudoku numbers due to the lack of time.So I will use only a valid grid that will be stored in a QList that will contain QList of type int.It will contain numbers from 1 to 9 and also the number 0 that will refer to the empty cells.We can change the numbers in the qlist the algorithm applied for the list1 will remain the same.
 
