@@ -239,8 +239,10 @@ pen.setWidth(5);
 p->setPen(pen);
 p->drawLine(13,358,933,358);
 p->drawLine(13,667,933,667);
-p->drawLine(320,47,320,962);
-p->drawLine(627,47,627,962);
+p->drawLine(320,50,320,972);
+p->drawLine(627,50,627,972);
+
+
 delete p;
 ```
 
@@ -293,97 +295,73 @@ QList<int> liste_;
 int i= s.toInt();
 int j = s1.toInt();
 for(int b =0;b<9;b++){
-  if(line1->text()!=""){
-    if(list1.at(i).at(b)==line1->text().toInt()){
-       for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
-           if(v<elements_lab.size()){
-             QString s2 = elements_lab.at(v)[0];
-                if(s2.toInt()==i){
-                   liste.append(v);
-                      }
-                  }if(v<elements.size()){
-                   QString s2 = elements.at(v)[0];
-                                        if(s2.toInt()==i){
-                                            liste_.append(v);
-                                      }
-
-
-                              }
-                  }
-
-         }
-            if(list1.at(b).at(j)==line1->text().toInt()){
-
-                  for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
-                         if(v<elements_lab.size()){
-                      QString s2 = elements_lab.at(v)[1];
-
-                            if(s2.toInt()== j ){
-                                liste.append(v);
-
-                            }
-                         }
-                         if(v<elements.size()){
-
-                         QString s2 = elements.at(v)[1];
-                      if(s2.toInt()==j){
-                        liste_.append(v);
-                          }
-
-
-                       }
-         }
-
-     }
-
-          for(int z=0;z<qMax(liste.size(),liste_.size());z++){
-              if(z<liste.size() &&labels[liste[z]]->text() == line1->text()){
-                            a =1;
-
-                       labels[liste[z]]->setStyleSheet("color: red");
-                        //QThread::msleep(1000);
-                    // labels[liste[z]]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
-                }
-              if(z<liste_.size() &&line[liste_[z]]->text() == line1->text()){
-                  a =1;
-
-                  line[liste_[z]]->setStyleSheet("color: red");
-                          c=liste_[z];
-
-                  for(int i=0;i<line.size();i++){
-                      if(i!=liste_[z]){
-                          QRegExp re("[]");
-                          QRegExpValidator *validator = new QRegExpValidator(re, this);
-                          line[i]->setValidator(validator);
-                      }
-
-
-                  }
-                 // QThread::msleep(1000);
-                 // line[liste_[z]]->setStyleSheet("color : gray");
-
-              }
-            }
+if(line1->text()!=""){
+if(list1.at(i).at(b)==line1->text().toInt()){
+for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
+if(v<elements_lab.size()){
+QString s2 = elements_lab.at(v)[0];
+if(s2.toInt()==i){
+liste.append(v);
 }
-         }
-          if(a==0){
-              list1[i][j]=line1->text().toInt();
-          }
-           if(line[c]->text()== ""){
-
-               for(int i=0;i<qMax(line.size(),labels.size());i++){
-                   if(i<line.size()){
-                       QRegExp re("[1-9]");
-                       QRegExpValidator *validator = new QRegExpValidator(re, this);
-                       line[i]->setValidator(validator);
-                       line[i]->setStyleSheet("color : gray");
-                   }
-                   if(i<labels.size()){
-               labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
-               }
-
+}if(v<elements.size()){
+ QString s2 = elements.at(v)[0];
+if(s2.toInt()==i){
+liste_.append(v);                                     
 }
-            }
+}
+}
+}
+if(list1.at(b).at(j)==line1->text().toInt()){
+for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
+if(v<elements_lab.size()){
+QString s2 = elements_lab.at(v)[1];
+if(s2.toInt()== j ){
+liste.append(v);
+ }
+}
+if(v<elements.size()){
+QString s2 = elements.at(v)[1];
+if(s2.toInt()==j){
+liste_.append(v);
+}
+}
+}
+}
+for(int z=0;z<qMax(liste.size(),liste_.size());z++){
+ if(z<liste.size() &&labels[liste[z]]->text() == line1->text()){
+     a =1;
+labels[liste[z]]->setStyleSheet("color: red");
+ }
+if(z<liste_.size() &&line[liste_[z]]->text() == line1->text()){
+   a =1;
+line[liste_[z]]->setStyleSheet("color: red");
+ c=liste_[z];
+for(int i=0;i<line.size();i++){
+if(i!=liste_[z]){
+QRegExp re("[]");
+QRegExpValidator *validator = new QRegExpValidator(re, this);
+line[i]->setValidator(validator);
+}
+}
+}
+}
+}
+}
+if(a==0){
+ list1[i][j]=line1->text().toInt();
+}
+if(line[c]->text()== ""){
+for(int i=0;i<qMax(line.size(),labels.size());i++){
+if(i<line.size()){
+QRegExp re("[1-9]");
+QRegExpValidator *validator = new QRegExpValidator(re, this);
+line[i]->setValidator(validator);
+line[i]->setStyleSheet("color : gray");
+}if(i<labels.size()){
+labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
+}
+}
+}
 ```
 
 
@@ -412,11 +390,11 @@ for (int x = 0; x <= 8; x++)
 // the particular 3*3 matrix,
 // we return false
 int startRow = row - row % 3,
- startCol = col - col % 3;
- for (int i = 0; i < 3; i++)
-  for (int j = 0; j < 3; j++)
-     if (l1[i + startRow][j + startCol] == num)
-       return false;
+startCol = col - col % 3;
+for (int i = 0; i < 3; i++)
+for (int j = 0; j < 3; j++)
+if (l1[i + startRow][j + startCol] == num)
+ return false;
 
 return true;
 
