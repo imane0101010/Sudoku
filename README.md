@@ -66,18 +66,18 @@ toolbar->addAction(save);
 ```
 Implementation of the method createWidgets:
 ```cpp
-//creating a qwidget that will contain the widgets and layouts
-QWidget* container = new QWidget;
-//Fixing the size of the container since i will be using QPainter later
-container->setFixedSize(950,950);
-//creating a gridlayout
-grid = new QGridLayout;
-grid->setSpacing(0);
-grid->setHorizontalSpacing(0);
-grid->setVerticalSpacing(0);
-int pos = 0;
-for (int i=0; i<9; i++) {
-   for (int j=0; j<9; j++) {
+   //creating a qwidget that will contain the widgets and layouts
+   QWidget* container = new QWidget;
+    //Fixing the size of the container since i will be using QPainter later
+    container->setFixedSize(950,950);
+      //creating a gridlayout
+      grid = new QGridLayout;
+      grid->setSpacing(0);
+     grid->setHorizontalSpacing(0);
+      grid->setVerticalSpacing(0);
+      int pos = 0;
+     for (int i=0; i<9; i++) {
+      for (int j=0; j<9; j++) {
      //Check if the cell isn´t empty
        if(list1.at(i).at(j)!=0 ){
        //convert the integer stored in list1 to string
@@ -117,25 +117,25 @@ for (int i=0; i<9; i++) {
          QRegExp re("[1-9]");
          QRegExpValidator *validator = new QRegExpValidator(re, this);
          //create font
-           QFont font = lineEdit->font();
-        lineEdit->setValidator(validator);
-        font. setPointSize(20);
-      lineEdit->setStyleSheet("color: gray");
-      lineEdit->setFont(font);
-      line.append(lineEdit);
-      QString v1= QString::number(i);
-      QString v2= QString::number(j);
-      v1=v1+v2;
-      elements.append(v1);
-       v1="";
-      grid->addWidget(lineEdit, i, j);
-     }
-   pos++;
-    }
-    }
-     container->setLayout(grid);
-    setCentralWidget(container);
-    setWindowTitle("Sudoku");
+         QFont font = lineEdit->font();
+         lineEdit->setValidator(validator);
+          font. setPointSize(20);
+          lineEdit->setStyleSheet("color: gray");
+          lineEdit->setFont(font);
+          line.append(lineEdit);
+          QString v1= QString::number(i);
+          QString v2= QString::number(j);
+          v1=v1+v2;
+          elements.append(v1);
+           v1="";
+          grid->addWidget(lineEdit, i, j);
+         }
+           pos++;
+        }
+        }
+         container->setLayout(grid);
+        setCentralWidget(container);
+        setWindowTitle("Sudoku");
   ```
  Implementation of the method loadContent:
  ```cpp
