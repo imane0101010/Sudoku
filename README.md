@@ -12,7 +12,7 @@ For this final project, I will be gathering almost everything we studied this se
 **A user should be warned in case he violate the rules of the game.**  
 **Finally, the numbers entered to the sudoku game must remains in the app in future use in case the user wanted to resume the game.** 
 
-Normally, my app should provide a partially completed grid,which for a well-posed puzzle has a single solution.In this project,I won´t write any program that will generate sudoku numbers due to the lack of time.So I will use only a valid grid that will be stored in a QList that will contain QList of type int.It will contain numbers from 1 to 9 and also the number 0 that will refer to the empty cells.We can change the numbers in the qlist the 
+Normally, my app should provide a partially completed grid,which for a well-posed puzzle has a single solution.In this project,I won´t write any program that will generate sudoku numbers due to the lack of time.So I will use only a valid grid that will be stored in a QList that will contain QList of type int.It will contain numbers from 1 to 9 and also the number 0 that will refer to the empty cells.We can change the numbers in the qlist the algorithm applied for the list1 will remain the same.
 
 ## Graphical Interface
 
@@ -137,10 +137,11 @@ Implementation of the method createWidgets:
         setCentralWidget(container);
         setWindowTitle("Sudoku");
   ```
- Implementation of the method loadContent:
+ Implementation of the method saveContent:
  ```cpp
-//Gettign a pointer on the file
+//Getting a pointer on the file
 QFile file(filename);
+//clearing the file Sudoku.txt
 file.resize(0);
 //Opening the file
 if(file.open(QIODevice::WriteOnly))  //Opening the file in writing mode
@@ -151,23 +152,23 @@ QTextStream out(&file);
 for(int i=0; i < 9;i++)
    for(int j=0; j <9; j++)
      {
+     //storing the content of the list1 in the file
      out <<list1[i][j] << endl;
       }
      }
+     //closing the file
      file.close();
 ```
-Implementation of the method SaveContent:
+Implementation of the method loadContent:
 ```cpp
-  QMessageBox msgBox;
+     //asking the user if he wants to resume the game or not using a QMessageBox
+     QMessageBox msgBox;
      msgBox.setText("Do you want to resume the part");
-
      QPushButton *yesButton = msgBox.addButton(tr("Yes"), QMessageBox::ActionRole);
      QPushButton *noButton = msgBox.addButton(tr("No"),QMessageBox::ActionRole);
 
      msgBox.exec();
-
      if (msgBox.clickedButton() == yesButton) {
-
        filename=currentFile;
        QString Alldata;
        QFile importedFile(filename);
@@ -186,7 +187,7 @@ Implementation of the method SaveContent:
        //
        importedFile.close();
    }
-
+//iterating over the rows (81 for 9x9 sudoku)
    for (int x = 0; x < rowOfData.size(); x++)
        for (int y = 0; y < 9; y++)
        {
@@ -204,9 +205,7 @@ Implementation of the method SaveContent:
       reset_slot();
 }
 }
-``
-
-
+```
 **QPainter** 
 I used QPainter to draw sudoku lines.
 
@@ -225,7 +224,9 @@ I used QPainter to draw sudoku lines.
  ```cpp
 QPen pen;
 QColor color1 ="gray";
+//set the color gray to the pen
 pen.setColor(color1);
+//set width 
 pen.setWidth(8);
 p->setPen(pen);
 QColor color ="gray";
@@ -234,11 +235,14 @@ pen.setStyle(Qt::SolidLine);
 pen.setWidth(8);
 p->setPen(pen);
 QRect rect(10,50,930,930);
+//draw borders of the sudoku grid
 p->drawRect(rect);
 pen.setWidth(5);
 p->setPen(pen);
+//draw horizontal lines
 p->drawLine(13,358,933,358);
 p->drawLine(13,667,933,667);
+//draw vertical lines
 p->drawLine(320,50,320,972);
 p->drawLine(627,50,627,972);
 
@@ -270,13 +274,17 @@ First,I connected all the lineEdits using only one slot which is the check slot 
  ```
  **Reset slot**
  ```cpp
+ //empty the list
   list1.empty();
+  //get intitial value from another qlist used as a backup list
     list1=list3;
 for(int i=0;i<line.size();i++){
+//empty lineEdits
     line[i]->setText("");
 }
 ```
 **Check slot**
+The idea for the check slot is to use the dynamic cast to get the identity of the lineEdit and then we will check if the number is suitable for this position.If so,the initial qlist list1 will be modified.Otherwise,we will assign the number a red color and force the use to change it.
 ```cpp
 int a=0;
 int c=0;
@@ -284,28 +292,37 @@ int c=0;
 auto line1  = dynamic_cast<QLineEdit*>(sender());
 for(int  w=0;w<line.size();w++){
 a=0;
+//getting the index of the lineEdit in the line qlist
    if(line1 == line[w]){
     k=w;
                                }
 }
+//storing coordinates of the the lineEdit in qstring
 QString s = elements.at(k)[0];
 QString s1 = elements.at(k)[1];
 QList<int> liste;
 QList<int> liste_;
+//converting the strings to integers
 int i= s.toInt();
 int j = s1.toInt();
 for(int b =0;b<9;b++){
+//check if the cell is empty
 if(line1->text()!=""){
+//Now we will check if the number already exist in the row or the column
+//check if the number in the cell is in list1
 if(list1.at(i).at(b)==line1->text().toInt()){
 for(int v=0;v<qMax(elements_lab.size(),elements.size());v++){
 if(v<elements_lab.size()){
+
 QString s2 = elements_lab.at(v)[0];
 if(s2.toInt()==i){
+//store the index of the existing number
 liste.append(v);
 }
 }if(v<elements.size()){
  QString s2 = elements.at(v)[0];
 if(s2.toInt()==i){
+//store the index i int the qlist liste_
 liste_.append(v);                                     
 }
 }
@@ -327,6 +344,7 @@ liste_.append(v);
 }
 }
 }
+//iterating over the the lists so as to assign the repeated numbers red color.
 for(int z=0;z<qMax(liste.size(),liste_.size());z++){
  if(z<liste.size() &&labels[liste[z]]->text() == line1->text()){
      a =1;
@@ -338,6 +356,7 @@ line[liste_[z]]->setStyleSheet("color: red");
  c=liste_[z];
 for(int i=0;i<line.size();i++){
 if(i!=liste_[z]){
+//applying a regular expression to the other lineEdit so as to force the user to change the number
 QRegExp re("[]");
 QRegExpValidator *validator = new QRegExpValidator(re, this);
 line[i]->setValidator(validator);
@@ -348,16 +367,22 @@ line[i]->setValidator(validator);
 }
 }
 if(a==0){
+//check if the number is suitable and add it to the list1
  list1[i][j]=line1->text().toInt();
 }
+//check if the number is deleted
 if(line[c]->text()== ""){
+
 for(int i=0;i<qMax(line.size(),labels.size());i++){
 if(i<line.size()){
+//giving the user the right to type numbers from 1-9 by applying the regular expression
 QRegExp re("[1-9]");
 QRegExpValidator *validator = new QRegExpValidator(re, this);
 line[i]->setValidator(validator);
+//turning out the red color into the gray one in the lineEdits
 line[i]->setStyleSheet("color : gray");
 }if(i<labels.size()){
+//set black color to the labels
 labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black; }");
 }
 }
@@ -367,7 +392,7 @@ labels[i]->setStyleSheet("QLabel { background-color : #FAD0C9FF ; color : black;
 ## Backtracking
 
 Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, that incrementally builds candidates to the solutions. As soon as it determines that a candidate cannot possibly lead to a valid complete solution, it abandons this partial candidate and “backtracks’’ (return to the upper level) and reset to the upper level’s state so that the search process can continue to explore the next branch.
-To solve the sudoku,We will be using the backtracking algorithm:
+For this part,I created three methods:
 
 * **Implementation of the method is_Safe:**
 
@@ -466,9 +491,10 @@ Implementation of the solveSudoku mathod:
  for (int i = 0; i < 9; i++)
   {
    for (int j = 0; j < 9; j++){
-   
+      //check if the cell is empty
      if(list3[i][j]==0){
         if(k<line.size()){
+        //filling the sudoku grid with numbers
           line[k]->setText(QString::number(l1[i][j]));
               k++;
           }else{
@@ -478,4 +504,5 @@ Implementation of the solveSudoku mathod:
     }
   }
   ```
+  Here is a solved Sudoku:
  ![](https://github.com/imane0101010/Sudoku/blob/cb670b4f3fd818f4600897c57fa8d832d5369a94/solved_sudoku.png) 
