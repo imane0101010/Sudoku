@@ -6,7 +6,6 @@ For this final project, I will be gathering almost everything we studied this se
 
 ## Use Cases:
 
-* **A user should be able to close the application.**  
 * **A user should be able to reset the sudoku table.**  
 * **A user should be able to get solution of the sudoku game.**  
 * **A user should be warned in case he violate the rules of the game.**  
